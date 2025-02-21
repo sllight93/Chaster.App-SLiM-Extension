@@ -1,0 +1,48 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Frontend",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/chaster-frontend"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Backend",
+      "type": "shell",
+      "command": "npm run start:dev",
+      "options": {
+        "cwd": "${workspaceFolder}/chaster-backend"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Compodoc",
+      "type": "shell",
+      "command": "npm run compodoc",
+      "options": {
+        "cwd": "${workspaceFolder}/chaster-backend"
+      },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "silent", 
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Start All",
+      "dependsOn": [
+        "Start Frontend",
+        "Start Backend",
+        "Start Compodoc"
+      ],
+      "dependsOrder": "parallel",
+      "type": "shell",
+      "command": "echo Starting all apps..."
+    }
+  ]
+}

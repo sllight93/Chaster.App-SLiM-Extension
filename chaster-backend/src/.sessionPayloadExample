@@ -1,0 +1,579 @@
+{
+  "slug":"shared-links-modifier",
+  "displayName":"Shared Links Modifier",
+  "summary":"Modifies user votes on shared links. It multiplies, inverts, or ignores votes.",
+  "subtitle":"Spice shared links up with this extension!",
+  "icon":"puzzle-piece",
+  "_id":"67b628fe56fc9b66f325a3aa",
+  "config":{
+    "difficulty":[
+      {
+        "type":"invert",
+        "weight":20
+      },
+      {
+        "type":"double",
+        "weight":20
+      },
+      {
+        "type":"double_invert",
+        "weight":35
+      },
+      {
+        "type":"jackpot",
+        "weight":1
+      },
+      {
+        "type":"nothing",
+        "weight":320
+      }
+    ],
+    "votes_target":300,
+    "count_only_loggedin":true,
+    "split":50,
+    "daily_quota":20,
+    "punish_mult":1
+  },
+  "mode":"cumulative",
+  "regularity":86400,
+  "userData":null,
+  "nbActionsRemaining":1,
+  "nextActionDate":null,
+  "isPartner":true,
+  "textConfig":"20 votes required",
+  "createdAt":"2025-02-19T18:54:54.423Z",
+  "updatedAt":"2025-02-20T11:17:28.998Z",
+  "sessionId":"LuV23MTfUFvxu3j-BASHc",
+  "data":{
+    "votes":{
+      "total":0,
+      "eligible":0,
+      "today":0
+    }
+  },
+  "metadata":{
+    "reasonsPreventingUnlocking":[
+      "Not enough votes collected. Get more shared link votes to unlock!"
+    ],
+    "homeActions":[
+      {
+        "slug":"notEnoughVotesQuota",
+        "title":"Daily quota not reached!",
+        "description":"Let people vote for your lock to prevent punishment!",
+        "icon":"fa-link",
+        "badge":"20"
+      }
+    ],
+    "_id":"67b70f4855635dfa1d579ff4",
+    "penalties":[
+      
+    ]
+  },
+  "lock":{
+    "_id":"67b628fe56fc9b66f325a376",
+    "startDate":"2025-02-19T18:54:54.000Z",
+    "endDate":"2025-03-15T13:26:44.967Z",
+    "minDate":"2025-02-19T19:54:54.000Z",
+    "maxDate":"2025-02-19T20:54:54.000Z",
+    "maxLimitDate":null,
+    "displayRemainingTime":true,
+    "limitLockTime":false,
+    "status":"locked",
+    "combination":"67b628fd4711fb55b3b78871",
+    "sharedLock":null,
+    "createdAt":"2025-02-19T18:54:54.242Z",
+    "updatedAt":"2025-02-20T15:26:11.676Z",
+    "unlockedAt":null,
+    "archivedAt":null,
+    "frozenAt":null,
+    "keyholderArchivedAt":null,
+    "totalDuration":76964966,
+    "allowSessionOffer":true,
+    "isTestLock":true,
+    "offerToken":"a1ea8881-50c6-4230-8bfa-f97cfae7fd60",
+    "hideTimeLogs":false,
+    "trusted":true,
+    "user":{
+      "_id":"62340ce3abfd422e9dd82828",
+      "username":"sllight",
+      "isPremium":true,
+      "isFindom":false,
+      "isAdmin":false,
+      "isModerator":false,
+      "isTeamMember":false,
+      "metadata":{
+        "locktober2020Points":0,
+        "locktober2021Points":0,
+        "chastityMonth2022Points":0,
+        "locktober2023Points":330,
+        "locktober2024Points":350,
+        "locktober2022Points":0
+      },
+      "isDisabled":false,
+      "isSuspended":false,
+      "joinedAt":"2022-03",
+      "isNewMember":false,
+      "age":31,
+      "avatarUrl":"https://cdn01.chaster.app/app/uploads/avatars/7aksQ1eP8241HQPQ.jpg",
+      "description":"Offering my current Lock (29/01/25), If you're interested, pm me here!",
+      "discordId":null,
+      "discordUsername":null,
+      "fullLocation":"Dortmund, Nordrhein-Westfalen, Germany",
+      "gender":"Male",
+      "sexualOrientation":"Gynesexual",
+      "lastSeen":null,
+      "location":"Dortmund",
+      "online":true,
+      "role":"wearer",
+      "features":[
+        
+      ],
+      "isSuspendedOrDisabled":false
+    },
+    "keyholder":{
+      "_id":"62e7f38fc18c73134048f12f",
+      "username":"MissLisa",
+      "isPremium":false,
+      "isFindom":false,
+      "isAdmin":false,
+      "isModerator":false,
+      "isTeamMember":false,
+      "metadata":{
+        "locktober2020Points":0,
+        "locktober2021Points":0,
+        "chastityMonth2022Points":0,
+        "locktober2023Points":10,
+        "locktober2022Points":0,
+        "locktober2024Points":0
+      },
+      "isDisabled":false,
+      "isSuspended":false,
+      "joinedAt":"2022-08",
+      "isNewMember":false,
+      "age":32,
+      "avatarUrl":"https://cdn01.chaster.app/app/uploads/avatars/3EoHpAI5PzW4rGKN.jpg",
+      "description":"",
+      "discordId":null,
+      "discordUsername":null,
+      "fullLocation":"Germany",
+      "gender":"Non-binary",
+      "sexualOrientation":"Pansexual",
+      "lastSeen":7948,
+      "location":"",
+      "online":false,
+      "role":"keyholder",
+      "features":[
+        
+      ],
+      "isSuspendedOrDisabled":false
+    },
+    "isAllowedToViewTime":true,
+    "canBeUnlocked":false,
+    "canBeUnlockedByMaxLimitDate":false,
+    "isFrozen":false,
+    "extensions":[
+      {
+        "slug":"link",
+        "displayName":"Share links",
+        "summary":"Share a link to other people to ask them to add or remove time to your lock.",
+        "subtitle":"Share your lock with others",
+        "icon":"link",
+        "_id":"67b628fe56fc9b66f325a3ac",
+        "config":{
+          "timeToAdd":3600,
+          "timeToRemove":3600,
+          "enableRandom":true,
+          "nbVisits":0,
+          "limitToLoggedUsers":false
+        },
+        "mode":"unlimited",
+        "regularity":3600,
+        "userData":null,
+        "nbActionsRemaining":-1,
+        "nextActionDate":null,
+        "isPartner":false,
+        "textConfig":"Time to add: 1 hour, Time to remove: 1 hour",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:55:21.039Z"
+      },
+      {
+        "slug":"shared-links-modifier",
+        "displayName":"Shared Links Modifier",
+        "summary":"Modifies user votes on shared links. It multiplies, inverts, or ignores votes.",
+        "subtitle":"Spice shared links up with this extension!",
+        "icon":"puzzle-piece",
+        "_id":"67b628fe56fc9b66f325a3aa",
+        "config":{
+          "difficulty":[
+            {
+              "type":"invert",
+              "weight":20
+            },
+            {
+              "type":"double",
+              "weight":20
+            },
+            {
+              "type":"double_invert",
+              "weight":35
+            },
+            {
+              "type":"jackpot",
+              "weight":1
+            },
+            {
+              "type":"nothing",
+              "weight":320
+            }
+          ],
+          "votes_target":300,
+          "count_only_loggedin":true,
+          "split":50,
+          "daily_quota":20,
+          "punish_mult":1
+        },
+        "mode":"cumulative",
+        "regularity":86400,
+        "userData":null,
+        "nbActionsRemaining":1,
+        "nextActionDate":null,
+        "isPartner":true,
+        "textConfig":"20 votes required",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-20T11:17:28.998Z"
+      },
+      {
+        "slug":"wheel-of-fortune",
+        "displayName":"Wheel of Fortune",
+        "summary":"Turn the wheel of fortune and change the duration of your lock. Configure actions for each cell of the wheel of fortune: time added or removed, frozen timer or custom text for your dares.",
+        "subtitle":"Try your luck by spinning the Wheel of Fortune",
+        "icon":"/static/assets/images/icons/extensions/wheel-of-fortune.svg",
+        "_id":"67b628fe56fc9b66f325a3ba",
+        "config":{
+          "segments":[
+            {
+              "type":"add-time",
+              "text":"",
+              "duration":3600
+            },
+            {
+              "type":"remove-time",
+              "text":"",
+              "duration":3600
+            }
+          ]
+        },
+        "mode":"non_cumulative",
+        "regularity":3600,
+        "userData":null,
+        "nbActionsRemaining":1,
+        "nextActionDate":null,
+        "isPartner":false,
+        "textConfig":"Add 1 hour, Remove 1 hour",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:54.475Z"
+      },
+      {
+        "slug":"guess-timer",
+        "displayName":"Guess the Timer",
+        "summary":"Guess correctly the timer, or time is added. The timer is hidden, press the unlock button when you think the timer is finished. If the timer is still running, random time is added!",
+        "subtitle":"With the timer hidden, guess when you think the timer is finished",
+        "icon":"clock",
+        "_id":"67b628fe56fc9b66f325a3b2",
+        "config":{
+          "minRandomTime":10800,
+          "maxRandomTime":21600
+        },
+        "mode":"unlimited",
+        "regularity":3600,
+        "userData":null,
+        "nbActionsRemaining":-1,
+        "nextActionDate":null,
+        "isPartner":false,
+        "textConfig":"Random time between 3 hours and 6 hours",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:54.477Z"
+      },
+      {
+        "slug":"dice",
+        "displayName":"Dice",
+        "summary":"With every action, you and the bot roll a dice. If you do more than the bot, time is removed. If the bot does more, time is added.",
+        "subtitle":"Roll the dice and try to reduce your time locked",
+        "icon":"dice",
+        "_id":"67b628fe56fc9b66f325a3ae",
+        "config":{
+          "multiplier":3600
+        },
+        "mode":"non_cumulative",
+        "regularity":3600,
+        "userData":null,
+        "nbActionsRemaining":1,
+        "nextActionDate":null,
+        "isPartner":false,
+        "textConfig":"Time multiplier: 1 hour",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:54.478Z"
+      },
+      {
+        "slug":"temporary-opening",
+        "displayName":"Hygiene opening",
+        "summary":"Because hygiene is important, unlock yourself regularly to clean your chastity device. Be careful, if you exceed the allowed time, you will receive a penalty.",
+        "subtitle":"Temporarily unlock yourself",
+        "icon":"soap",
+        "_id":"67b628fe56fc9b66f325a3c2",
+        "config":{
+          "openingTime":900,
+          "penaltyTime":43200,
+          "allowOnlyKeyholderToOpen":false
+        },
+        "mode":"non_cumulative",
+        "regularity":172800,
+        "userData":{
+          "openedAt":null
+        },
+        "nbActionsRemaining":0,
+        "nextActionDate":"2025-02-21T18:54:54.423Z",
+        "isPartner":false,
+        "textConfig":"Time allowed: 15 minutes, penalty for exceeding time: 12 hours",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:54.495Z"
+      },
+      {
+        "slug":"unlock-condition",
+        "displayName":"Unlock Gamble",
+        "summary":"Let chance decide whether the wearer will be unlocked. Or do they need to perform a task first?Options over options...",
+        "subtitle":"Will you be unlocked? Let randomness decide!",
+        "icon":"traffic-light-slow",
+        "_id":"67b628fe56fc9b66f325a3bc",
+        "config":{
+          "occasion":"Regular",
+          "unlockWeight":1,
+          "taskWeight":0,
+          "deniedWeight":1,
+          "tasks":[
+            
+          ],
+          "deniedPunishments":[
+            {
+              "weight":1,
+              "items":[
+                {
+                  "type":"AddFixed",
+                  "min":0,
+                  "max":3600
+                }
+              ]
+            }
+          ],
+          "taskFailedPunishments":[
+            
+          ],
+          "allowFrozenRelease":false,
+          "enforceMinimumWait":false,
+          "grantOnceElapsed":false,
+          "taskDoublePunishments":false
+        },
+        "mode":"unlimited",
+        "regularity":3600,
+        "userData":null,
+        "nbActionsRemaining":-1,
+        "nextActionDate":null,
+        "isPartner":true,
+        "textConfig":"\nWhen can ask:\nOnce the timer elapsed\n\n&nbsp;\n\nOptions:\n- Can request while blocked by other extensions: yes\n- Allow asking when frozen: no\n\n  \n\n\n***\n\nPotential outcomes:\n- Unlock (50% chance)\n- Denial (50% chance)\n\n\n***\n\nDenial punishments:\n- Punishment 1 (100% chance)\n  - Add time:\n0 seconds\n – \n1 hour\n\n\n\n",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:58.262Z"
+      },
+      {
+        "slug":"pillory",
+        "displayName":"Pillory",
+        "summary":"When you receive a penalty, be displayed publicly for a specified period of time. Other users will be able to add time to your lock.",
+        "subtitle":"Be displayed publicly when you receive a penalty",
+        "icon":"user-friends",
+        "_id":"67b628fe56fc9b66f325a3c0",
+        "config":{
+          "timeToAdd":3600,
+          "limitToLoggedUsers":true
+        },
+        "mode":"unlimited",
+        "regularity":3600,
+        "userData":null,
+        "nbActionsRemaining":-1,
+        "nextActionDate":null,
+        "isPartner":false,
+        "textConfig":"1 hour added per vote",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:54.496Z"
+      },
+      {
+        "slug":"verification-picture",
+        "displayName":"Verification picture",
+        "summary":"Regularly take a picture of your chastity device to show that you are locked.",
+        "subtitle":"Regularly take a picture of your device to show that you are locked",
+        "icon":"camera",
+        "_id":"67b628fe56fc9b66f325a3b8",
+        "config":{
+          "visibility":"all",
+          "peerVerification":{
+            "enabled":false,
+            "punishments":[
+              
+            ]
+          }
+        },
+        "mode":"non_cumulative",
+        "regularity":86400,
+        "userData":{
+          "requestedAt":null,
+          "verificationCodeRequired":true,
+          "currentVerificationCode":"",
+          "nbVerificationPictures":0,
+          "history":[
+            {
+              
+            }
+          ]
+        },
+        "nbActionsRemaining":1,
+        "nextActionDate":null,
+        "isPartner":false,
+        "textConfig":"",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:54.490Z"
+      },
+      {
+        "slug":"obedience-1",
+        "displayName":"Obedience",
+        "summary":"This extension allows you to connect your lock to your Obedience rewards and punishments, so you can automatically add lock time for Obedience punishments, or deduct lock time for Obedience rewards.",
+        "subtitle":"Connect lock to your Obedience rewards and punishments",
+        "icon":"puzzle-piece",
+        "_id":"67b628fe56fc9b66f325a3be",
+        "config":{
+          
+        },
+        "mode":"unlimited",
+        "regularity":3600,
+        "userData":null,
+        "nbActionsRemaining":-1,
+        "nextActionDate":null,
+        "isPartner":true,
+        "textConfig":"",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:54.498Z"
+      },
+      {
+        "slug":"tasks",
+        "displayName":"Tasks",
+        "summary":"Spice up your session by receiving tasks. Configure the tasks you want to do, and receive a random task, or ask other users to vote.",
+        "subtitle":"Receive tasks and earn points to be unlocked",
+        "icon":"tasks",
+        "_id":"67b628fe56fc9b66f325a3b0",
+        "config":{
+          "tasks":[
+            {
+              "task":"",
+              "points":0
+            }
+          ],
+          "voteEnabled":false,
+          "voteDuration":43200,
+          "startVoteAfterLastVote":false,
+          "enablePoints":false,
+          "pointsRequired":0,
+          "allowWearerToEditTasks":false,
+          "allowWearerToConfigureTasks":false,
+          "preventWearerFromAssigningTasks":false,
+          "allowWearerToChooseTasks":false,
+          "actionsOnAbandonedTask":[
+            
+          ]
+        },
+        "mode":"non_cumulative",
+        "regularity":3600,
+        "userData":{
+          "status":"start",
+          "voteStartedAt":null,
+          "voteEndsAt":null,
+          "currentTask":null,
+          "userTasks":[
+            {
+              "task":"",
+              "points":0
+            }
+          ],
+          "currentTaskVote":null,
+          "points":0
+        },
+        "nbActionsRemaining":1,
+        "nextActionDate":null,
+        "isPartner":false,
+        "textConfig":"- ",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:55.271Z"
+      },
+      {
+        "slug":"penalty",
+        "displayName":"Penalties",
+        "summary":"Receive penalties when you do not perform actions on time.",
+        "subtitle":"Receive penalties when you do not perform actions on time",
+        "icon":"gavel",
+        "_id":"67b628fe56fc9b66f325a3b4",
+        "config":{
+          "penalties":[
+            
+          ]
+        },
+        "mode":"unlimited",
+        "regularity":3600,
+        "userData":{
+          "status":[
+            
+          ],
+          "hasMigratedToAdvancedPenalties":true
+        },
+        "nbActionsRemaining":-1,
+        "nextActionDate":null,
+        "isPartner":false,
+        "textConfig":"{\"penalties\":[]}",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-19T18:54:55.250Z"
+      },
+      {
+        "slug":"random-events",
+        "displayName":"Random Events",
+        "summary":"Random events can happen and change your timer. Time added or removed, frozen lock, many things can happen. You don't know when it will happen, it's a surprise.",
+        "subtitle":"Add randomness to your lock",
+        "icon":"random",
+        "_id":"67b628fe56fc9b66f325a3b6",
+        "config":{
+          "difficulty":"normal"
+        },
+        "mode":"unlimited",
+        "regularity":3600,
+        "userData":null,
+        "nbActionsRemaining":-1,
+        "nextActionDate":null,
+        "isPartner":false,
+        "textConfig":"Normal: More events, with some impact on your lock.",
+        "createdAt":"2025-02-19T18:54:54.423Z",
+        "updatedAt":"2025-02-20T15:26:11.826Z"
+      }
+    ],
+    "title":"Keyholder lock",
+    "lastVerificationPicture":null,
+    "reasonsPreventingUnlocking":[
+      {
+        "reason":"Not enough votes collected. Get more shared link votes to unlock!",
+        "icon":""
+      },
+      {
+        "reason":"guess_timer",
+        "icon":"clock"
+      },
+      {
+        "reason":"Need to beg more",
+        "icon":"traffic-light-slow"
+      }
+    ],
+    "extensionsAllowUnlocking":false
+  }
+}
