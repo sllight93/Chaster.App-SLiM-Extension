@@ -3,5 +3,7 @@
     "workbench.externalBrowser": "chrome",
     "editor.defaultFoldingRangeProvider": null,
     "vs-browser.reload.onSave": true,
-    "terminal.integrated.gpuAcceleration": "on"
+    "terminal.integrated.gpuAcceleration": "on",
+    "terminal.integrated.scrollback":100000
+
 }

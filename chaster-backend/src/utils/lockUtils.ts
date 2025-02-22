@@ -20,6 +20,7 @@ import { Logger } from '@nestjs/common';
 const partnerExtensionsApi = new PartnerExtensionsApi();
 const logger = new Logger('LockUtils');
 
+
 /**
  * Führt den Freeze-Lock-Vorgang durch.
  *
@@ -33,20 +34,17 @@ const logger = new Logger('LockUtils');
  * const result = await freezeLock('sessionToken123');
  * console.log(result); // { success: true, message: "Freeze action successfully processed" }
  */
-export async function freezeLock(token: string): Promise<{ success: boolean; message: string}> {
+export async function freeze(sessionId: string): Promise<{ success: boolean; message: string}> {
   logger.debug("Pending Freeze...");
-  
-  const sessionInfo = await getSessionAuthData(token);
-  logger.debug(`Session-Informationen: ${JSON.stringify(sessionInfo)}`);
   
   const action: FreezeLockActionModel = {
     name: FreezeLockActionModelNameEnum.Freeze,
   };
 
   const result = await partnerExtensionsApi.doAction(
-    sessionInfo.sessionId,
+    sessionId,
     { action: action },
-    { headers: { Authorization: `Bearer ${sessionInfo.apiKey}` } }
+    { headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` } }
   );
   
   logger.debug(`Freeze action result: ${JSON.stringify(result)}`);
@@ -65,20 +63,17 @@ export async function freezeLock(token: string): Promise<{ success: boolean; mes
  * @param token - Das Authentifizierungs-Token zur Ermittlung der Session.
  * @returns Ein Promise mit einem Objekt, das den Erfolg und eine entsprechende Nachricht enthält.
  */
-export async function unfreezeLock(token: string): Promise<{ success: boolean; message: string }> {
+export async function unfreeze(sessionId: string): Promise<{ success: boolean; message: string }> {
   logger.debug("Pending Unfreeze...");
   
-  const sessionInfo = await getSessionAuthData(token);
-  logger.debug(`Session-Informationen: ${JSON.stringify(sessionInfo)}`);
-
   const action: UnfreezeLockActionModel = {
     name: UnfreezeLockActionModelNameEnum.Unfreeze,
   };
 
   const result = await partnerExtensionsApi.doAction(
-    sessionInfo.sessionId,
+    sessionId,
     { action: action },
-    { headers: { Authorization: `Bearer ${sessionInfo.apiKey}` } }
+    { headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` } }
   );
   
   logger.debug(`Unfreeze action result: ${JSON.stringify(result)}`);
@@ -97,20 +92,18 @@ export async function unfreezeLock(token: string): Promise<{ success: boolean; m
  * @param token - Das Authentifizierungs-Token.
  * @returns Ein Promise mit einem Objekt, das den Erfolg und eine entsprechende Nachricht enthält.
  */
-export async function toggleFreezeLock(token: string): Promise<{ success: boolean; message: string }> {
+export async function toggleFreeze(sessionId: string): Promise<{ success: boolean; message: string }> {
   logger.debug("Pending Toggle Freeze...");
   
-  const sessionInfo = await getSessionAuthData(token);
-  logger.debug(`Session-Informationen: ${JSON.stringify(sessionInfo)}`);
 
   const action: ToggleFreezeLockActionModel = {
     name: ToggleFreezeLockActionModelNameEnum.ToggleFreeze,
   };
   
   const result = await partnerExtensionsApi.doAction(
-    sessionInfo.sessionId,
+    sessionId,
     { action: action },
-    { headers: { Authorization: `Bearer ${sessionInfo.apiKey}` } }
+    { headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` } }
   );
   
   logger.debug(`ToggleFreeze action result: ${JSON.stringify(result)}`);
@@ -131,12 +124,10 @@ export async function toggleFreezeLock(token: string): Promise<{ success: boolea
  * @param reason - Der Grund für den Pillory-Lock.
  * @returns Ein Promise mit einem Objekt, das den Erfolg und eine entsprechende Nachricht enthält.
  */
-export async function pilloryLock(token: string, duration: number, reason: string): Promise<{ success: boolean; message: string }> {
+
+export async function pillory(sessionId: string, duration: number, reason: string): Promise<{ success: boolean; message: string }> {
   logger.debug("Pending Pillory...");
   
-  const sessionInfo = await getSessionAuthData(token);
-  logger.debug(`Session-Informationen: ${JSON.stringify(sessionInfo)}`);
-
   const params: PilloryLockActionParamsModel = {
     duration,
     reason,
@@ -148,9 +139,9 @@ export async function pilloryLock(token: string, duration: number, reason: strin
   };
 
   const result = await partnerExtensionsApi.doAction(
-    sessionInfo.sessionId,
+    sessionId,
     { action: action },
-    { headers: { Authorization: `Bearer ${sessionInfo.apiKey}` } }
+    { headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` } }
   );
   
   logger.debug(`Pillory action result: ${JSON.stringify(result)}`);
@@ -170,21 +161,19 @@ export async function pilloryLock(token: string, duration: number, reason: strin
  * @param duration - Die Zeit in Sekunden, die zum Lock hinzugefügt werden soll.
  * @returns Ein Promise mit einem Objekt, das den Erfolg und eine entsprechende Nachricht enthält.
  */
-export async function addTimeLock(token: string, duration: number ): Promise<{ success: boolean; message: string }> {
+
+export async function addTime(sessionId: string, duration: number ): Promise<{ success: boolean; message: string }> {
   logger.debug("Pending Add Time...");
   
-  const sessionInfo = await getSessionAuthData(token);
-  logger.debug(`Session-Informationen: ${JSON.stringify(sessionInfo)}`);
-
   const action: AddTimeLockActionModel = {
     name: AddTimeLockActionModelNameEnum.AddTime,
     params: duration,
   };
 
   const result = await partnerExtensionsApi.doAction(
-    sessionInfo.sessionId,
+    sessionId,
     { action: action },
-    { headers: { Authorization: `Bearer ${sessionInfo.apiKey}` } }
+    { headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` } }
   );
 
   logger.debug(`AddTime action result: ${JSON.stringify(result)}`);
@@ -204,21 +193,19 @@ export async function addTimeLock(token: string, duration: number ): Promise<{ s
  * @param duration - Die Zeit in Sekunden, die vom Lock entfernt werden soll.
  * @returns Ein Promise mit einem Objekt, das den Erfolg und eine entsprechende Nachricht enthält.
  */
-export async function removeTimeLock(token: string, duration: number ): Promise<{ success: boolean; message: string }> {
-  logger.debug("Pending Remove Time...");
-  
-  const sessionInfo = await getSessionAuthData(token);
-  logger.debug(`Session-Informationen: ${JSON.stringify(sessionInfo)}`);
 
+export async function removeTime(sessionId: string, duration: number ): Promise<{ success: boolean; message: string }> {
+  logger.debug("Pending Remove Time...");
+ 
   const action: RemoveTimeLockActionModel = {
     name: RemoveTimeLockActionModelNameEnum.RemoveTime,
     params: duration,
   };
 
   const result = await partnerExtensionsApi.doAction(
-    sessionInfo.sessionId,
+    sessionId,
     { action: action },
-    { headers: { Authorization: `Bearer ${sessionInfo.apiKey}` } }
+    { headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` } }
   );
 
   logger.debug(`RemoveTime action result: ${JSON.stringify(result)}`);
@@ -227,3 +214,49 @@ export async function removeTimeLock(token: string, duration: number ): Promise<
     message: "Remove Time action successfully processed",
   };
 }
+
+
+export async function setTime(sessionId: string, duration: number): Promise<{ success: boolean; message: string }> {
+  logger.debug("Starting setTime...");
+  console.debug('Starting setTime...');
+
+  if (duration > 0) {
+    logger.debug("Pending Add Time...");
+
+    const action: AddTimeLockActionModel = {
+      name: AddTimeLockActionModelNameEnum.AddTime,
+      params: duration,
+    };
+
+    await partnerExtensionsApi.doAction(
+      sessionId,
+      { action: action },
+      { headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` } }
+    );
+
+    return {
+      success: true,
+      message: "Add Time action successfully processed",
+    };
+  } else {
+    logger.debug("Pending Remove Time...");
+
+    const action: RemoveTimeLockActionModel = {
+      name: RemoveTimeLockActionModelNameEnum.RemoveTime,
+      params: -duration, // Make sure duration is positive
+    };
+
+    await partnerExtensionsApi.doAction(
+      sessionId,
+      { action: action },
+      { headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` } }
+    );
+
+    return {
+      success: true,
+      message: "Remove Time action successfully processed",
+    };
+  }
+}
+
+

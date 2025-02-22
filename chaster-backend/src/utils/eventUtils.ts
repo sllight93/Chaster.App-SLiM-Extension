@@ -1,5 +1,14 @@
-import { EventDto } from '../schema/config.dto';
-import { ActionLogCreated, ActionLogCreatedEventEnum, ActionLogForPublic } from '@chasterapp/chaster-js/dist/api';
+import { setTime } from './lockUtils';
+import { createLogEntry } from './logUtils';
+import { getMetadata, metadataDecreaseBadge } from './sessionUtils';
+import { PartnerExtensionsApi, PatchExtensionSessionDto, GetPartnerSessionRepDto, ActionLogCreated, ActionLogCreatedEventEnum, ActionLogForPublic } from '@chasterapp/chaster-js';
+import { AxiosResponse } from 'axios';
+import { UpdatePrivateSessionDto, PrivateSessionDto, MetadataDto, EventDto } from '../schema/config.dto';
+import { Logger } from '@nestjs/common';
+
+
+const partnerExtensionsApi = new PartnerExtensionsApi();
+const logger = new Logger('SessionUtils');
 
 // Beispiel-Funktionen für verschiedene ActionLogForPublic-Types
 function handleLocked(data: ActionLogForPublic) {
@@ -78,6 +87,7 @@ function handleActionLogCreated(data: ActionLogCreated) {
       break;
     case 'link_time_changed':
       console.log('Handling link_time_changed event with data:', actionLog);
+      handleLinkVote(data)
       break;
     case 'dice_rolled':
       console.log('Handling dice_rolled event with data:', actionLog);
@@ -135,11 +145,67 @@ export function handleEvent(event: EventDto) {
   }
 }
 
-function handleLinkVote(event) {
+// Gewichtungen für die möglichen Aktionen
+const actionWeights = {
+  'nothing': 0,
+  'invert': 0,
+  'double': 0,
+  'double_invert': 0,
+  'jackpot': 1
+};
 
-    const time = event.data.actionLog.payload.duration;
-    const username = event.data.actionLog.user.username;
+// Funktion zur zufälligen Auswahl einer Aktion basierend auf Gewichtungen
+function getRandomAction() {
+  const totalWeight = Object.values(actionWeights).reduce((sum, weight) => sum + weight, 0);
+  let random = Math.random() * totalWeight;
 
+  for (const [action, weight] of Object.entries(actionWeights)) {
+    if (random < weight) {
+      return action;
+    }
+    random -= weight;
+  }
+}
+
+
+
+// Funktion zum Verarbeiten von Link-Vote-Daten
+async function handleLinkVote(data) {
+  const time = data.data.actionLog.payload.duration;
+  const username = data.data.actionLog.user ? data.data.actionLog.user.username : 'Visitor';
+
+  const action = getRandomAction();
+  console.log(`Randomly selected action: ${action}`);
+
+  switch (action) {
+    case 'nothing':
+      console.log('No action taken.');
+      break;
+    case 'invert':
+      console.log('Inverting time for user:', username);
+      await createLogEntry(data.data.sessionId, { title: 'Mouse slip', description: ` ${username} clearly hit the wrong button.` });
+      await setTime(data.data.sessionId, -time * 2);
+      break;
+    case 'double':
+      console.log('Doubling time for user:', username);
+      await createLogEntry(data.data.sessionId, { title: 'Lucky vote', description: `Critical vote by ${username}. It count's twice!` });
+      await setTime(data.data.sessionId, time * 2);
+      break;
+    case 'double_invert':
+      console.log('Doubling and inverting time for user:', username);
+      await createLogEntry(data.data.sessionId, { title: 'This doesn\'t look right...', description: `Invalid vote by ${username}. It has been corrected.` });
+      await setTime(data.data.sessionId, -time * 3);
+      break;
+    case 'jackpot':
+      console.log('Jackpot! Special action for user:', username);
+      await createLogEntry(data.data.sessionId, { title: 'Jackpot!', description: `${username} hit the Jackpot! Vote was multiplied by 10!` });
+      await setTime(data.data.sessionId, time * 9);
+      await metadataDecreaseBadge(data.data.sessionId);
+      
+      break;
+    default:
+      console.warn('Unknown action:', action);
+  }
 }
 
 

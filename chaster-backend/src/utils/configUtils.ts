@@ -9,7 +9,7 @@ const logger = new Logger('ConfigUtil');
 
 export async function getConfig(token: string, options?: any): Promise<ConfigDto> {
   logger.debug(`Rufe Konfiguration für Token ${token} ab.`);
-  const apiToken = process.env.CHASTER_API_TOKEN;
+  const apiToken = process.env.CHASTER_API_KEY;
   const authOptions = {
     headers: { Authorization: `Bearer ${apiToken}` },
     ...options,

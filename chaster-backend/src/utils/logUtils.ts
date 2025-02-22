@@ -7,6 +7,7 @@ import { Logger } from '@nestjs/common';
 const partnerExtensionsApi = new PartnerExtensionsApi();
 const logger = new Logger('LogUtils');
 
+
 /**
  * Erstellt einen Logeintrag.
  *
@@ -30,16 +31,15 @@ const logger = new Logger('LogUtils');
  * });
  */
 export async function createLogEntry(
-  token: string,
+  sessionId: string,
   logData: { title: string; description: string; icon?: string; color?: string | null }
 ): Promise<void> {
-  if (!token) {
-    throw new Error('Fehlende Parameter: sessionId oder token');
+
+  if (!sessionId) {
+    throw new Error('Fehlende Parameter: sessionId');
   }
 
-  const sessionInfo = await getSessionAuthData(token);
-  logger.debug(`Ermittelte SessionInfo: ${JSON.stringify(sessionInfo)}`);
-
+  
   const logEntry: PartnerCustomLogActionDto = {
     title: logData.title,
     description: logData.description,
@@ -49,10 +49,14 @@ export async function createLogEntry(
   };
 
   try {
-    await partnerExtensionsApi.logCustomAction(sessionInfo.sessionId, logEntry, {
-      headers: { Authorization: `Bearer ${sessionInfo.apiKey}` },
+
+
+    await partnerExtensionsApi.logCustomAction(sessionId, logEntry, {
+      headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` },
     });
-    logger.debug(`Logeintrag erfolgreich erstellt für Session ${sessionInfo.sessionId}`);
+
+
+    logger.debug(`Logeintrag erfolgreich erstellt für Session ${sessionId}`);
   } catch (error) {
     logger.error('Fehler beim Erstellen des Log-Eintrags:', error.stack);
     throw new Error('Log konnte nicht erstellt werden');

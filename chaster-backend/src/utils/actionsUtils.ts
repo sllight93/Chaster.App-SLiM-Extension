@@ -43,7 +43,7 @@ export async function freezeLock(token: string): Promise<{ success: boolean; mes
     const result = await partnerExtensionsApi.submitRegularAction(
       sessionInfo.sessionId,
       payload,
-      { headers: { Authorization: `Bearer ${sessionInfo.apiKey}` } }
+      { headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` } }
     );
     logger.debug(`Ergebnis der Aktion: ${JSON.stringify(result)}`);
   

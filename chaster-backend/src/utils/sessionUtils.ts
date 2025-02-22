@@ -2,7 +2,7 @@
 
 import { PartnerExtensionsApi, PatchExtensionSessionDto, GetPartnerSessionRepDto } from '@chasterapp/chaster-js';
 import { AxiosResponse } from 'axios';
-import { UpdatePrivateSessionDto, PrivateSessionDto } from '../schema/config.dto';
+import { UpdatePrivateSessionDto, PrivateSessionDto, MetadataDto } from '../schema/config.dto';
 import { Logger } from '@nestjs/common';
 
 const partnerExtensionsApi = new PartnerExtensionsApi();
@@ -31,16 +31,15 @@ const logger = new Logger('SessionUtils');
  */
 export async function getSessionAuthData(token: string): Promise<{ sessionId: string; mainToken: string; apiKey: string; clientId: string; lockId: string }> {
   const clientId = process.env.X_CHASTER_CLIENT_ID;
-  const apiToken = process.env.CHASTER_API_TOKEN;
-
-  if (!token || !clientId || !apiToken) {
+ 
+  if (!token || !clientId || !process.env.CHASTER_API_KEY) {
     throw new Error('Fehlende Parameter: token, clientId oder CHASTER_API_TOKEN');
   }
 
   try {
     const response = await partnerExtensionsApi.getSessionAuth(token, clientId, {
       headers: {
-        'Authorization': `Bearer ${apiToken}`,
+        'Authorization': `Bearer ${process.env.CHASTER_API_KEY}`,
         'X-CHASTER-CLIENT-ID': clientId,
       },
     });
@@ -52,7 +51,7 @@ export async function getSessionAuthData(token: string): Promise<{ sessionId: st
     return {
       sessionId: response.data.session.sessionId,
       mainToken: token,
-      apiKey: apiToken,
+      apiKey: process.env.CHASTER_API_KEY,
       clientId,
       lockId: response.data.session.lock._id,
     };
@@ -76,7 +75,7 @@ export async function getSession(token: string, options?: any): Promise<UpdatePr
   logger.debug(`Rufe Konfiguration für Token ${token} ab.`);
   const sessionInfo = await getSessionAuthData(token);
   const authOptions = {
-    headers: { Authorization: `Bearer ${sessionInfo.apiKey}` },
+    headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` },
     ...options,
   };
   const response: AxiosResponse<GetPartnerSessionRepDto> = await partnerExtensionsApi.getExtensionSession(
@@ -106,7 +105,7 @@ export async function updateSession(token: string, newConfig: UpdatePrivateSessi
   logger.debug(`Update Konfiguration für Token ${token} mit neuen Werten: ${JSON.stringify(newConfig)}`);
   const sessionInfo = await getSessionAuthData(token);
   const authOptions = {
-    headers: { Authorization: `Bearer ${sessionInfo.apiKey}` },
+    headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` },
     ...options,
   };
 
@@ -134,6 +133,53 @@ export async function updateSession(token: string, newConfig: UpdatePrivateSessi
   return { success: true };
 }
 
+
+export async function getMetadata(sessionId: string, options?: any): Promise<MetadataDto> {
+  logger.debug(`Erhalte metadaten für Session ${sessionId}`);
+  const authOptions = {
+    headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` },
+    ...options,
+  };
+
+  const response: AxiosResponse<GetPartnerSessionRepDto> = await partnerExtensionsApi.getExtensionSession(sessionId, authOptions);
+  const session = (response.data as any).session;
+  const currentConfig: UpdatePrivateSessionDto = stripConfig(session);
+
+  return currentConfig.metadata!;
+  
+}
+
+export async function metadataDecreaseBadge(sessionId: string, options?: any): Promise<{success: boolean}> {
+  logger.debug(`Update metadata for session ${sessionId}`);
+  const authOptions = {
+    headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` },
+    ...options,
+  };
+
+  const response: AxiosResponse<GetPartnerSessionRepDto> = await partnerExtensionsApi.getExtensionSession(sessionId, authOptions);
+  const session = (response.data as any).session;
+  const currentConfig: UpdatePrivateSessionDto = stripConfig(session);
+
+  const newMeta = convertAndDecrementBadge(currentConfig.metadata!);
+  logger.debug(`New metadata: ${JSON.stringify(newMeta)}.`);
+
+  // Shallow-Merge für jeden Top-Level-Bereich
+  const mergedConfig: UpdatePrivateSessionDto = {
+    config: currentConfig.config,
+    metadata: newMeta! || {},
+    data: currentConfig.data,
+  };
+
+  const patchDto: PatchExtensionSessionDto = {
+    config: mergedConfig.config,
+    metadata: mergedConfig.metadata,
+    data: mergedConfig.data,
+  };
+
+  await partnerExtensionsApi.patchExtensionSession(sessionId, patchDto, authOptions);
+  logger.debug(`Metadaten erfolgreich aktualisiert für Session ${sessionId}.`);
+  return { success: true };
+}
 
 /**
  * Entfernt alle nicht im Schema definierten Felder aus der Konfiguration.
@@ -190,4 +236,16 @@ function stripConfig(session: any): PrivateSessionDto {
     // Das lock-Objekt wird nicht gestript und steht somit für die Anzeige bereit.
     lock: allowedLock,
   };
+}
+
+
+function convertAndDecrementBadge(metadata: MetadataDto): MetadataDto {
+  metadata.homeActions.forEach(action => {
+    if (typeof action.badge === 'string') {
+      let badgeNumber = parseInt(action.badge, 10);
+      badgeNumber--; // Verringert den Wert um eins
+      action.badge = badgeNumber.toString(); // Wandelt den Wert wieder in einen string um
+    }
+  });
+  return metadata;
 }

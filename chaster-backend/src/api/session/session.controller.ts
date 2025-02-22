@@ -69,3 +69,4 @@ export class SessionController {
     return { success: true, message: 'Configuration updated successfully' };
   }
 }
+
