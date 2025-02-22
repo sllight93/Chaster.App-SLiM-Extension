@@ -5,13 +5,13 @@ import { ConfigDto } from '../schema/config.dto';
 import { Logger } from '@nestjs/common';
 
 const partnerExtensionsApi = new PartnerExtensionsApi();
-const logger = new Logger('ConfigUtil');
+const logger = new Logger('ConfigUtils');
 
 export async function getConfig(token: string, options?: any): Promise<ConfigDto> {
   logger.debug(`Rufe Konfiguration für Token ${token} ab.`);
-  const apiToken = process.env.CHASTER_API_KEY;
+
   const authOptions = {
-    headers: { Authorization: `Bearer ${apiToken}` },
+    headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` },
     ...options,
   };
 
@@ -39,9 +39,8 @@ export async function setConfig(
   // Entferne den Schlüssel token, falls vorhanden
   const  configWithoutToken  = {config: updatePartnerConfigurationDto.config};
 
-  const apiToken = process.env.CHASTER_API_TOKEN;
   const authOptions = {
-    headers: { Authorization: `Bearer ${apiToken}` },
+    headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` },
     ...options,
   };
 

@@ -2,7 +2,7 @@
 
 import { PartnerExtensionsApi, PatchExtensionSessionDto, GetPartnerSessionRepDto } from '@chasterapp/chaster-js';
 import { AxiosResponse } from 'axios';
-import { UpdatePrivateSessionDto, PrivateSessionDto, MetadataDto } from '../schema/config.dto';
+import { UpdatePrivateSessionDto, PrivateSessionDto, MetadataDto, DataDto } from '../schema/config.dto';
 import { Logger } from '@nestjs/common';
 
 const partnerExtensionsApi = new PartnerExtensionsApi();
@@ -149,37 +149,7 @@ export async function getMetadata(sessionId: string, options?: any): Promise<Met
   
 }
 
-export async function metadataDecreaseBadge(sessionId: string, options?: any): Promise<{success: boolean}> {
-  logger.debug(`Update metadata for session ${sessionId}`);
-  const authOptions = {
-    headers: { Authorization: `Bearer ${process.env.CHASTER_API_KEY}` },
-    ...options,
-  };
 
-  const response: AxiosResponse<GetPartnerSessionRepDto> = await partnerExtensionsApi.getExtensionSession(sessionId, authOptions);
-  const session = (response.data as any).session;
-  const currentConfig: UpdatePrivateSessionDto = stripConfig(session);
-
-  const newMeta = convertAndDecrementBadge(currentConfig.metadata!);
-  logger.debug(`New metadata: ${JSON.stringify(newMeta)}.`);
-
-  // Shallow-Merge für jeden Top-Level-Bereich
-  const mergedConfig: UpdatePrivateSessionDto = {
-    config: currentConfig.config,
-    metadata: newMeta! || {},
-    data: currentConfig.data,
-  };
-
-  const patchDto: PatchExtensionSessionDto = {
-    config: mergedConfig.config,
-    metadata: mergedConfig.metadata,
-    data: mergedConfig.data,
-  };
-
-  await partnerExtensionsApi.patchExtensionSession(sessionId, patchDto, authOptions);
-  logger.debug(`Metadaten erfolgreich aktualisiert für Session ${sessionId}.`);
-  return { success: true };
-}
 
 /**
  * Entfernt alle nicht im Schema definierten Felder aus der Konfiguration.
@@ -197,6 +167,7 @@ function stripConfig(session: any): PrivateSessionDto {
     difficulty: session.config?.difficulty,
     votes_target: session.config?.votes_target,
     count_only_loggedin: session.config?.count_only_loggedin,
+    hardcore: session.config?.hardcore,
     split: session.config?.split,
     daily_quota: session.config?.daily_quota,
     punish_mult: session.config?.punish_mult,
@@ -229,9 +200,14 @@ function stripConfig(session: any): PrivateSessionDto {
     extensionAllowUnlocking: session.lock?.extensionAllowUnlocking,
   };
 
+  // Entferne unerwünschte Schlüssel aus metadata
+  const allowedMetadata = { ...session.metadata };
+  delete allowedMetadata._id;
+  delete allowedMetadata.penalties;
+
   return {
     config: allowedConfig,
-    metadata: session.metadata || {},
+    metadata: allowedMetadata,
     data: session.data || {},
     // Das lock-Objekt wird nicht gestript und steht somit für die Anzeige bereit.
     lock: allowedLock,
@@ -239,13 +215,5 @@ function stripConfig(session: any): PrivateSessionDto {
 }
 
 
-function convertAndDecrementBadge(metadata: MetadataDto): MetadataDto {
-  metadata.homeActions.forEach(action => {
-    if (typeof action.badge === 'string') {
-      let badgeNumber = parseInt(action.badge, 10);
-      badgeNumber--; // Verringert den Wert um eins
-      action.badge = badgeNumber.toString(); // Wandelt den Wert wieder in einen string um
-    }
-  });
-  return metadata;
-}
+
+

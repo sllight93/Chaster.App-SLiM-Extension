@@ -23,7 +23,13 @@
         "start:dev"
       ],
       "cwd": "${workspaceFolder}/chaster-backend",
-      "console": "integratedTerminal"
+      "skipFiles": ["<node_internals>/**"],
+      //"preLaunchTask": "tsc: build backend",
+      "sourceMaps": true,
+      "restart": true,
+      "console": "integratedTerminal",
+      "program": "${workspaceFolder}/chaster-backend/src/main.ts",
+      "outFiles": ["${workspaceFolder}/chaster-backend/dist/**/*.js"]
     }
   ],
   "compounds": [

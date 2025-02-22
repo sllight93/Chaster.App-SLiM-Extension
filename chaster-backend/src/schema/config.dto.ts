@@ -1,4 +1,4 @@
-import { ConfigDto, MetadataDto, DataDto } from './extensionConfig.dto';
+import { ConfigDto, MetadataDto, DataDto, DifficultyDto } from './extensionConfig.dto';
 
 /**
  * DTO für die Konfiguration.
@@ -25,7 +25,7 @@ export interface PrivateSessionDto {
  */
 export type UpdatePrivateSessionDto = Partial<Omit<PrivateSessionDto, "lock">>;
 
-export { ConfigDto, MetadataDto, DataDto } from './extensionConfig.dto';
+export { ConfigDto, MetadataDto, DataDto, DifficultyDto } from './extensionConfig.dto';
 
 export interface LockDto {
     

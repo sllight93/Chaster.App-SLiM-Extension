@@ -1,0 +1,50 @@
+{
+    "config": {
+        "difficulty": [
+        {
+            "type": "invert",
+            "weight": 40
+        },
+        {
+            "type": "double",
+            "weight": 40
+        },
+        {
+            "type": "double_invert",
+            "weight": 25
+        },
+        {
+            "type": "jackpot",
+            "weight": 1
+        },
+        {
+            "type": "nothing",
+            "weight": 320
+        }
+        ],
+        "votes_target": 56,
+        "hardcore": false,
+        "split": 50,
+        "daily_quota": 5,
+        "punish_mult": 1.0
+    },
+    "metadata": {
+        "reasonsPreventingUnlocking": ["You need to fullfill your daily quota! Send your shared link to more people."],
+        "homeActions": [
+            {
+                "slug": "vote",
+                "title": "Daily quota not reached!", 
+                "description": "You need to fullfill your daily quota! Send your shared link to more people.",
+                "icon": "fa-link",
+                "badge": "5"
+            }
+        ]
+    },
+    "data": {
+        "votes": {
+            "total": 0,
+            "eligible": 0,
+            "today": 0
+        }
+} 
+}

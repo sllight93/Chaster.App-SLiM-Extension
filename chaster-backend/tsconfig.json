@@ -21,5 +21,7 @@
     "paths": {
       "chaster-api-client": ["node_modules/chaster-api-client"]
     }
-  }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

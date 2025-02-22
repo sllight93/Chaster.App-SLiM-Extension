@@ -21,7 +21,7 @@
       /**
        * Gibt an, ob nur für eingeloggte Benutzer gezählt wird.
        */
-      count_only_loggedin: boolean;
+      hardcore: boolean;
       /**
        * Anteil der Verteilung.
        */

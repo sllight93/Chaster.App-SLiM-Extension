@@ -16,15 +16,20 @@ export interface ExtensionConfigProps {
 }
 
 export const defaultConfig: ConfigDto = {
-  difficulty: [],
-  votes_target: 0,
-  count_only_loggedin: true,
+  difficulty: [
+    { type: 'nothing', weight: 320, },
+    { type: 'double', weight: 40, },
+    { type: 'invert', weight: 40, },
+    { type: 'invert_double', weight: 25, },
+    { type: 'jackpot', weight: 1, },
+  ],
+  votes_target: 56,
+  hardcore: false,
   split: 50,
-  daily_quota: 15,
+  daily_quota: 5,
   punish_mult: 1.0,
 }; 
 
-// ... restlicher Code von ExtensionConfig.tsx
 
 export default function ExtensionConfig({ config, onChange }: ExtensionConfigProps) {
   // Lokaler UI-State, abgeleitet von config.
@@ -35,7 +40,7 @@ export default function ExtensionConfig({ config, onChange }: ExtensionConfigPro
   const [visitsRequired, setVisitsRequired] = useState(config.votes_target);
   const [dailyQuota, setDailyQuota] = useState(config.daily_quota);
   const [punishMult, setPunishMult] = useState(config.punish_mult);
-  const [onlyCountLoggedIn, setOnlyCountLoggedIn] = useState(config.count_only_loggedin);
+  const [hardcore, setHardcore] = useState(config.hardcore);
 
   // Synchronisiere lokalen UI-State, wenn config (vom Parent) sich ändert.
   useEffect(() => {
@@ -44,7 +49,7 @@ export default function ExtensionConfig({ config, onChange }: ExtensionConfigPro
     setVisitsRequired(config.votes_target);
     setDailyQuota(config.daily_quota);
     setPunishMult(config.punish_mult);
-    setOnlyCountLoggedIn(config.count_only_loggedin);
+    setHardcore(config.hardcore);
   }, [config]);
 
   // Erstelle das neue Config-Objekt
@@ -56,7 +61,7 @@ export default function ExtensionConfig({ config, onChange }: ExtensionConfigPro
         }))
       : [],
     votes_target: visitsRequired,
-    count_only_loggedin: onlyCountLoggedIn,
+    hardcore: hardcore,
     split: split,
     daily_quota: dailyQuota,
     punish_mult: punishMult,
@@ -139,11 +144,11 @@ export default function ExtensionConfig({ config, onChange }: ExtensionConfigPro
         {/* Row 3: Checkbox */}
         <div>
           <label>
-            Only count votes from logged-in users:
+            Activate hardcore mode (Quota is also the limit for the day):
             <input
               type="checkbox"
-              checked={onlyCountLoggedIn}
-              onChange={(e) => setOnlyCountLoggedIn(e.target.checked)}
+              checked={hardcore}
+              onChange={(e) => setHardcore(e.target.checked)}
               onBlur={handleBlur}
             />
           </label>

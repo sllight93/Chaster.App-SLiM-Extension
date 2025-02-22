@@ -2,6 +2,16 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "tsc: build backend",
+      "type": "typescript",
+      "tsconfig": "${workspaceFolder}/chaster-backend/tsconfig.json",
+      "problemMatcher": ["$tsc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
       "label": "Start Frontend",
       "type": "shell",
       "command": "npm run dev",

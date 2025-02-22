@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { Logger } from '@nestjs/common';
 
 dotenv.config(); // Lädt die .env-Datei
 
@@ -12,7 +13,7 @@ async function bootstrap() {
     origin: process.env.FRONTEND_URL?.split(',') || 'http://localhost:3000', // Nutzt die Umgebungsvariable
     credentials: true, // Erlaubt Cookies & Autorisierung
   });
-
+  app.useLogger(new Logger());
   const config = new DocumentBuilder()
     .setTitle('CEF Backend API')
     .setDescription('Übersicht über die Chaster Extension Framework API')

@@ -1,9 +1,15 @@
 {
+    "editor.stickyScroll.enabled": true,
+    "git.autofetch": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "javascript.updateImportsOnFileMove.enabled": "never",
     "vs-browser.autoCompleteUrl": "https://",
-    "workbench.externalBrowser": "chrome",
-    "editor.defaultFoldingRangeProvider": null,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "explorer.confirmDragAndDrop": false,
     "vs-browser.reload.onSave": true,
-    "terminal.integrated.gpuAcceleration": "on",
-    "terminal.integrated.scrollback":100000
+    "terminal.integrated.scrollback":100000,
+
 
 }
