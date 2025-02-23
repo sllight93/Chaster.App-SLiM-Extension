@@ -11,12 +11,12 @@ export class WebhooksController {
 
   @Post()
   @ApiOperation({
-    summary: 'Empfang eines Webhooks',
-    description: `Empfängt Webhook-Anfragen von Chaster Erweiterungen, protokolliert die Header und die Payload und gibt eine Empfangsbestätigung zurück.
-    Weitere Informationen findest du in der Chaster-Dokumentation: https://docs.chaster.app/api/extensions-api/create-your-extension/webhooks`
+    summary: 'Receive a webhook',
+    description: `Receives webhook requests from Chaster extensions, logs the headers and payload, and returns an acknowledgment.
+    For more information, please refer to the Chaster documentation: https://docs.chaster.app/api/extensions-api/create-your-extension/webhooks`
   })
   @ApiBody({
-    description: 'Webhook-Payload. Erwartet werden mindestens die Felder "event" und "data".',
+    description: 'Webhook payload. At a minimum, the "event" and "data" fields are expected.',
     schema: {
       example: {
         event: 'something_happened',
@@ -26,7 +26,7 @@ export class WebhooksController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Webhook erfolgreich empfangen',
+    description: 'Webhook received successfully',
     schema: {
       example: { status: 'received' }
     }
@@ -35,10 +35,9 @@ export class WebhooksController {
     @Body() payload: any,
     @Headers() headers: Record<string, any>
   ) {
-    this.logger.log(`Webhook received with headers: ${JSON.stringify(headers)}`);
-    this.logger.log(`Payload: ${JSON.stringify(payload)}`);
+    this.logger.log(`Event type '${JSON.stringify(payload.data.actionLog.type)}' has been triggered with title: ${JSON.stringify(payload.data.actionLog.title)}`);
     
-    // Verarbeite das Event
+    // Process the event
     handleEvent(payload);
 
     return { status: 'received' };

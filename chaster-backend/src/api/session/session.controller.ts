@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Param, Body } from '@nestjs/common';
+import { Controller, Get, Patch, Param, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { getSession, updateSession } from '../../utils/sessionUtils';
 
@@ -6,14 +6,17 @@ import { getSession, updateSession } from '../../utils/sessionUtils';
 @Controller('api/session')
 export class SessionController {
   /**
-   * Ruft die aktuelle Konfiguration für die angegebene Session ab.
-   * GET /config/:mainToken
+   * Retrieves the current configuration for the specified session.
+   * GET /api/session/:mainToken
    */
   @Get(':mainToken')
-  @ApiOperation({ summary: 'Liefert die aktuelle Konfiguration', description: 'Dieses Endpoint gibt die aktuelle Konfiguration der angegebenen Session zurück.' })
+  @ApiOperation({ 
+    summary: 'Retrieve the current configuration', 
+    description: 'This endpoint returns the current configuration of the specified session.' 
+  })
   @ApiResponse({
     status: 200,
-    description: 'Erfolgreiche Antwort',
+    description: 'Successful response',
     schema: {
       example: {
         success: true,
@@ -32,8 +35,8 @@ export class SessionController {
             daily_quota: 20,
             punish_mult: 1,
           },
-          metadata: { /* beliebige Metadaten */ },
-          data: { /* beliebige Daten */ },
+          metadata: { /* arbitrary metadata */ },
+          data: { /* arbitrary data */ },
         },
       },
     },
@@ -44,15 +47,18 @@ export class SessionController {
   }
 
   /**
-   * Aktualisiert (merged) die Konfiguration für die angegebene Session.
-   * PATCH /config/:mainToken
-   * Erwartet im Body ein JSON-Objekt mit den Feldern, die aktualisiert werden sollen.
-   * Dabei werden die neuen Werte in die bestehende Konfiguration integriert, wobei vorhandene Felder überschrieben werden.
+   * Updates (merges) the configuration for the specified session.
+   * PATCH /api/session/:mainToken
+   * Expects a JSON object in the body with the fields to be updated.
+   * The new values are merged into the existing configuration, overwriting existing fields.
    */
   @Patch(':mainToken')
-  @ApiOperation({ summary: 'Aktualisiert die Konfiguration', description: 'Nur die im Body angegebenen Felder werden in die bestehende Konfiguration integriert. (Shallow-Merge)' })
+  @ApiOperation({ 
+    summary: 'Update the configuration', 
+    description: 'Only the fields provided in the request body will be merged into the existing configuration. (Shallow merge)' 
+  })
   @ApiBody({
-    description: 'Teilweise Konfigurationsänderungen',
+    description: 'Partial configuration update',
     schema: {
       example: {
         config: {
