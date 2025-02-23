@@ -50,7 +50,8 @@
        * Eine Liste von Aktionen, die auf der Homepage angezeigt werden können.
        */
       homeActions: HomeActionsDto[];
-    
+
+
   }
   
   export interface HomeActionsDto {
